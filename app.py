@@ -17,7 +17,7 @@ from sklearn.metrics import accuracy_score, classification_report
 
 
 # Load dataset
-data = pd.read_csv("/content/drive/MyDrive/mager project/credit_card_fraud_10k.csv")
+data = pd.read_csv("credit_card_fraud_10k.csv")
 
 # Show first 5 rows
 data.head()
@@ -353,8 +353,8 @@ def get_dataset():
     # Randomly get a mix of Safe and Fraudulent transactions to demonstrate
     # Ensure 'data' variable is the pd.DataFrame you loaded earlier in Colab
     sample = pd.concat([
-        data[data['Class'] == 0].sample(7),
-        data[data['Class'] == 1].sample(3)
+        data[data['is_fraud'] == 0].sample(7),
+        data[data['is_fraud'] == 1].sample(3)
     ]).sample(frac=1) # shuffle them to look natural
 
     records = []
@@ -369,25 +369,10 @@ def get_dataset():
     return jsonify(records)
 
 
-
-
-from threading import Thread
-
-def run_app():
-    app.run(port=5000)
-
-thread = Thread(target=run_app)
-thread.start()
-
 from flask_cors import CORS
 CORS(app)
 
-from pyngrok import ngrok
-
-ngrok.set_auth_token("3CIOrhiGYsLZkBwsxp4nCdnKxmd_7rRj2DB8kSwyUmVzmNQeQ")
-
-# Kill any existing ngrok tunnels
-ngrok.kill()
-
-public_url = ngrok.connect(5000)
-print(public_url)
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
