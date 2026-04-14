@@ -65,6 +65,43 @@ def predict():
     return jsonify({
         "prediction": result
     })
+    from flask import Flask, request, jsonify
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+
+app = Flask(__name__)
+
+# load dataset
+data = pd.read_csv("credit_card_fraud_10k.csv")
+data = data.dropna()
+
+X = data.drop("is_fraud", axis=1)
+y = data["is_fraud"]
+
+model = LogisticRegression(max_iter=2000)
+model.fit(X, y)
+
+@app.route("/")
+def home():
+    return "Fraud Detection API Running"
+
+@app.route("/predict", methods=["POST"])
+def predict():
+    data = request.json
+    
+    amount = data.get("amount", 0)
+    hour = data.get("hour", 12)
+    
+    sample = [[amount, hour, 0,0,0,0,30]]  # dummy features
+    
+    prediction = model.predict(sample)[0]
+    
+    return jsonify({
+        "fraud_prediction": int(prediction)
+    })
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
 
 
 # =============================
