@@ -384,8 +384,6 @@ thread.start()
 from flask_cors import CORS
 CORS(app)
 
-!pip install pyngrok
-
 from pyngrok import ngrok
 
 ngrok.set_auth_token("3CIOrhiGYsLZkBwsxp4nCdnKxmd_7rRj2DB8kSwyUmVzmNQeQ")
