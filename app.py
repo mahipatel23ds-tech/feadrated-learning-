@@ -1,4 +1,4 @@
-```python
+
 from flask import Flask, request, jsonify
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
