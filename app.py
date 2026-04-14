@@ -62,7 +62,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 #Simple Model Train
 #Logistic Regression
-model = LogisticRegression(max_iter=1000)
+model = LogisticRegression(max_iter=5000)
 model.fit(X_train, y_train)
 
 #Prediction & Accuracy
@@ -107,7 +107,7 @@ X3, y3 = split_xy(client3)
 from sklearn.linear_model import LogisticRegression
 
 def train_local_model(X, y):
-    model = LogisticRegression(max_iter=1000)
+    model = LogisticRegression(max_iter=5000)
     model.fit(X, y)
     return model
 
@@ -139,7 +139,7 @@ w_avg = (w1 + w2 + w3) / 3
 b_avg = (b1 + b2 + b3) / 3
 
 # Create a new model
-global_model = LogisticRegression(max_iter=1000)
+global_model = LogisticRegression(max_iter=5000)
 
 # Set the averaged coefficients
 global_model.coef_ = w_avg
@@ -152,7 +152,10 @@ y_test_combined = pd.concat([y1, y2, y3])
 y_pred_global = global_model.predict(X_test_combined)
 
 print("Global Model Accuracy:", accuracy_score(y_test_combined, y_pred_global))
+from sklearn.preprocessing import StandardScaler
 
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
 #Confusion Matrix Visualize
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
