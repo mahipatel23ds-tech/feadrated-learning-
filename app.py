@@ -13,6 +13,10 @@ app = Flask(__name__)
 data = pd.read_csv("credit_card_fraud_10k.csv")
 
 data = data.dropna()
+data["merchant_category"] = data["merchant_category"].astype("category").cat.codes
+
+X = data.drop("is_fraud", axis=1)
+y = data["is_fraud"]
 
 # Drop transaction_id if exists
 if "transaction_id" in data.columns:
