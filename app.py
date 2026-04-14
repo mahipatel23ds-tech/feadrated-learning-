@@ -12,6 +12,8 @@ app = Flask(__name__)
 # =============================
 data = pd.read_csv("credit_card_fraud_10k.csv")
 
+data = data.dropna()
+
 # Drop transaction_id if exists
 if "transaction_id" in data.columns:
     data = data.drop(columns=["transaction_id"])
