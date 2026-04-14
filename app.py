@@ -15,8 +15,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 
-from google.colab import drive
-drive.mount('/content/drive')
 
 # Load dataset
 data = pd.read_csv("/content/drive/MyDrive/mager project/credit_card_fraud_10k.csv")
