@@ -128,6 +128,38 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/stats")
+def stats():
+
+    total_transactions = len(data)
+    total_fraud = int(data['is_fraud'].sum())
+
+    fraud_rate = (total_fraud / total_transactions) * 100
+
+    return jsonify({
+        "total_transactions": total_transactions,
+        "fraud_transactions": total_fraud,
+        "fraud_rate": round(fraud_rate,2)
+    })
+
+
+@app.route("/transactions")
+def transactions():
+
+    recent = data.tail(20)
+
+    result = []
+
+    for i,row in recent.iterrows():
+
+        result.append({
+            "id": int(i),
+            "amount": float(row["amount"]),
+            "fraud": int(row["is_fraud"])
+        })
+
+    return jsonify(result)
+
 
 # -----------------------------
 # Run Server
